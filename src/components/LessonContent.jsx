@@ -1,6 +1,6 @@
 import React from 'react';
 import { Info, AlertTriangle, Lightbulb } from 'lucide-react';
-import { Diagram } from './Diagrams';
+import { DiagramZoom } from './DiagramZoom';
 import { CodeBlock } from './CodeBlock';
 import { Sandbox } from './Sandbox';
 
@@ -90,10 +90,11 @@ export function LessonContent({ sections }) {
 
           case 'diagram':
             return (
-              <div key={i} className="diagram-wrapper">
-                {section.title && <p className="diagram-label">{section.title}</p>}
-                <Diagram type={section.diagram} />
-              </div>
+              <DiagramZoom
+                key={i}
+                type={section.diagram}
+                title={section.title}
+              />
             );
 
           case 'sandbox':

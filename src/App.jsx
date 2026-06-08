@@ -7,6 +7,7 @@ import CheatsheetPage from './pages/CheatsheetPage';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import BookmarksPage from './pages/BookmarksPage';
+import { MobileNav } from './components/MobileNav';
 import './App.css';
 
 function Nav({ dark, toggleDark }) {
@@ -76,6 +77,7 @@ function Layout({ children, dark, toggleDark }) {
     <div className="app-layout">
       <Nav dark={dark} toggleDark={toggleDark} />
       <div className="app-content">{children}</div>
+      <MobileNav />
     </div>
   );
 }

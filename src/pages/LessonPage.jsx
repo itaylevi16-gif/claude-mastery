@@ -44,6 +44,27 @@ export default function LessonPage() {
 
   return (
     <div className="lesson-page">
+      {/* Mobile top progress bar */}
+      <div className="lesson-mobile-nav">
+        <button className="lesson-mobile-nav-back" onClick={() => navigate('/')}>
+          <ArrowLeft size={16} /> All modules
+        </button>
+        <div className="lesson-mobile-progress">
+          <div className="lesson-mobile-dots">
+            {allModuleLessons.map((l, i) => (
+              <div
+                key={l.id}
+                className={`lesson-mobile-dot ${isComplete(l.id) ? 'done' : l.id === id ? 'current' : ''}`}
+                onClick={() => navigate(`/lesson/${l.id}`)}
+                style={{ cursor: 'pointer' }}
+              />
+            ))}
+          </div>
+          <span style={{ fontSize: 11, color: 'var(--text-tertiary)', fontWeight: 500 }}>
+            {lessonIndex + 1}/{allModuleLessons.length}
+          </span>
+        </div>
+      </div>
       {/* Sidebar nav */}
       <aside className="lesson-sidebar">
         <button className="back-btn" onClick={() => navigate('/')}>
