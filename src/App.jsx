@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { BookOpen, Home as HomeIcon, FileText } from 'lucide-react';
+import { BookOpen, Home as HomeIcon, FileText, Sun, Moon, Zap, Bookmark } from 'lucide-react';
 import Home from './pages/Home';
 import LessonPage from './pages/LessonPage';
 import CheatsheetPage from './pages/CheatsheetPage';
+import ProjectsPage from './pages/ProjectsPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
+import BookmarksPage from './pages/BookmarksPage';
 import './App.css';
 
-function Nav() {
+function Nav({ dark, toggleDark }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,6 +29,20 @@ function Nav() {
             Home
           </button>
           <button
+            className={`nav-link ${location.pathname.startsWith('/project') ? 'active' : ''}`}
+            onClick={() => navigate('/projects')}
+          >
+            <Zap size={15} />
+            Projects
+          </button>
+          <button
+            className={`nav-link ${location.pathname === '/bookmarks' ? 'active' : ''}`}
+            onClick={() => navigate('/bookmarks')}
+          >
+            <Bookmark size={15} />
+            Saved
+          </button>
+          <button
             className={`nav-link ${location.pathname === '/cheatsheet' ? 'active' : ''}`}
             onClick={() => navigate('/cheatsheet')}
           >
@@ -41,29 +58,54 @@ function Nav() {
             <BookOpen size={15} />
             Docs
           </a>
+          <button
+            className="theme-toggle"
+            onClick={toggleDark}
+            aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {dark ? <Sun size={17} /> : <Moon size={17} />}
+          </button>
         </div>
       </div>
     </nav>
   );
 }
 
-function Layout({ children }) {
+function Layout({ children, dark, toggleDark }) {
   return (
     <div className="app-layout">
-      <Nav />
+      <Nav dark={dark} toggleDark={toggleDark} />
       <div className="app-content">{children}</div>
     </div>
   );
 }
 
 export default function App() {
+  const [dark, setDark] = useState(() => {
+    try {
+      const saved = localStorage.getItem('cm_theme');
+      if (saved) return saved === 'dark';
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch { return false; }
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    try { localStorage.setItem('cm_theme', dark ? 'dark' : 'light'); } catch {}
+  }, [dark]);
+
+  const toggleDark = () => setDark(d => !d);
+
   return (
     <BrowserRouter>
-      <Layout>
+      <Layout dark={dark} toggleDark={toggleDark}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/lesson/:id" element={<LessonPage />} />
           <Route path="/cheatsheet" element={<CheatsheetPage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/project/:id" element={<ProjectDetailPage />} />
+          <Route path="/bookmarks" element={<BookmarksPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

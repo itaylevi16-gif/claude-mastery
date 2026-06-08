@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { MODULES, TOTAL_LESSONS } from '../data/curriculum';
+import { ALL_MODULES, TOTAL_LESSONS } from '../data/index';
 
 const STORAGE_KEY = 'claude_mastery_progress_v1';
 
@@ -57,7 +57,7 @@ export function useProgress() {
     completed: progress.completed.length,
     total: TOTAL_LESSONS,
     percent: Math.round((progress.completed.length / TOTAL_LESSONS) * 100),
-    byModule: MODULES.map(m => ({
+    byModule: ALL_MODULES.map(m => ({
       id: m.id,
       title: m.title,
       done: m.lessons.filter(l => progress.completed.includes(l.id)).length,

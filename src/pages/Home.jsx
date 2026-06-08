@@ -1,12 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Terminal, Layout, Sparkles, Rocket, BookOpen, Award, Zap } from 'lucide-react';
-import { MODULES } from '../data/curriculum';
+import { Terminal, Layout, Sparkles, Rocket, BookOpen, Zap, Globe, Code, Package, Plug, TrendingUp } from 'lucide-react';
+import { ALL_MODULES, TOTAL_LESSONS } from '../data/index';
 import { useProgress } from '../hooks/useProgress';
 
-const ICONS = { terminal: Terminal, layout: Layout, sparkles: Sparkles, rocket: Rocket };
-
-const LEVEL_ORDER = { Beginner: 0, Intermediate: 1, Advanced: 2 };
+const ICONS = {
+  terminal: Terminal,
+  layout: Layout,
+  sparkles: Sparkles,
+  rocket: Rocket,
+  globe: Globe,
+  code: Code,
+  package: Package,
+  plug: Plug,
+  'trending-up': TrendingUp,
+};
 
 export default function Home() {
   const navigate = useNavigate();
@@ -33,7 +41,7 @@ export default function Home() {
             </div>
             <div className="hero-stat-div" />
             <div className="hero-stat">
-              <span className="hero-stat-num">4</span>
+              <span className="hero-stat-num">{ALL_MODULES.length}</span>
               <span className="hero-stat-label">modules</span>
             </div>
             <div className="hero-stat-div" />
@@ -76,7 +84,7 @@ export default function Home() {
       <section className="modules-section">
         <h2 className="modules-heading">Your curriculum</h2>
         <div className="modules-grid">
-          {MODULES.map(mod => {
+          {ALL_MODULES.map(mod => {
             const Icon = ICONS[mod.icon];
             const modStats = stats.byModule.find(m => m.id === mod.id);
             const pct = Math.round((modStats.done / modStats.total) * 100);

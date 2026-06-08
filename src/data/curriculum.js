@@ -1424,3 +1424,5 @@ export function getNextLesson(currentId) {
   const idx = allLessons.findIndex(l => l.id === currentId);
   return idx < allLessons.length - 1 ? allLessons[idx + 1] : null;
 }
+
+// end of curriculum.js

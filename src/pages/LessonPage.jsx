@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, CheckCircle, BookOpen, Clock } from 'lucide-react';
-import { getLessonById, getNextLesson, MODULES } from '../data/curriculum';
+import { ArrowLeft, ArrowRight, CheckCircle, BookOpen, Clock, Bookmark } from 'lucide-react';
+import { getLessonById, getNextLesson, ALL_MODULES } from '../data/index';
 import { useProgress } from '../hooks/useProgress';
+import { useBookmarks } from '../hooks/useBookmarks';
 import { LessonContent } from '../components/LessonContent';
 import { Quiz } from '../components/Quiz';
 
@@ -10,6 +11,7 @@ export default function LessonPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isComplete, markComplete } = useProgress();
+  const { isBookmarked, toggle: toggleBookmark } = useBookmarks();
   const [quizPassed, setQuizPassed] = useState(false);
 
   const result = getLessonById(id);
@@ -81,7 +83,7 @@ export default function LessonPage() {
 
         <div className="sidebar-modules">
           <p className="sidebar-other-label">Other modules</p>
-          {MODULES.filter(m => m.id !== mod.id).map(m => (
+          {ALL_MODULES.filter(m => m.id !== mod.id).map(m => (
             <button
               key={m.id}
               className="sidebar-other-module"
@@ -113,6 +115,15 @@ export default function LessonPage() {
                 Lesson {lessonIndex + 1} of {allModuleLessons.length}
               </span>
             )}
+            <button
+              className={`bookmark-btn ${isBookmarked(id) ? 'bookmarked' : ''}`}
+              onClick={() => toggleBookmark(id)}
+              aria-label={isBookmarked(id) ? 'Remove bookmark' : 'Save lesson'}
+              title={isBookmarked(id) ? 'Remove bookmark' : 'Save lesson'}
+            >
+              <Bookmark size={16} fill={isBookmarked(id) ? 'currentColor' : 'none'} />
+              {isBookmarked(id) ? 'Saved' : 'Save'}
+            </button>
           </div>
 
           <h1 className="lesson-title">{lesson.title}</h1>
