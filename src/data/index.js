@@ -1,9 +1,10 @@
 import { MODULES } from './curriculum.js';
 import { MODULES2 } from './curriculum2.js';
+import { MODULES3 } from './curriculum3.js';
 
-export { MODULES, MODULES2 };
+export { MODULES, MODULES2, MODULES3 };
 
-export const ALL_MODULES = [...MODULES, ...MODULES2];
+export const ALL_MODULES = [...MODULES3, ...MODULES, ...MODULES2];
 
 export const TOTAL_LESSONS = ALL_MODULES.reduce(
   (acc, m) => acc + m.lessons.length, 0

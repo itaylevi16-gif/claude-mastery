@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Terminal, Layout, Sparkles, Rocket, BookOpen, Zap, Globe, Code, Package, Plug, TrendingUp, CheckCircle } from 'lucide-react';
+import { Terminal, Layout, Sparkles, Rocket, BookOpen, Zap, Globe, Code, Package, Plug, TrendingUp, CheckCircle, Info, PuzzleIcon } from 'lucide-react';
 import { ALL_MODULES, TOTAL_LESSONS } from '../data/index';
 import { useProgress } from '../hooks/useProgress';
 
@@ -8,6 +8,7 @@ const ICONS = {
   terminal: Terminal, layout: Layout, sparkles: Sparkles,
   rocket: Rocket, globe: Globe, code: Code,
   package: Package, plug: Plug, 'trending-up': TrendingUp,
+  info: Info, puzzle: PuzzleIcon,
 };
 
 function StreakSection({ stats }) {

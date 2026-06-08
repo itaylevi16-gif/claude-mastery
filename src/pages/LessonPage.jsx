@@ -6,6 +6,7 @@ import { useProgress } from '../hooks/useProgress';
 import { useBookmarks } from '../hooks/useBookmarks';
 import { LessonContent } from '../components/LessonContent';
 import { Quiz } from '../components/Quiz';
+import { LessonNotes } from '../components/LessonNotes';
 
 export default function LessonPage() {
   const { id } = useParams();
@@ -162,6 +163,9 @@ export default function LessonPage() {
         <div className="lesson-body">
           <LessonContent sections={lesson.content.sections} />
         </div>
+
+        {/* Notes */}
+        <LessonNotes lessonId={id} />
 
         {/* Quiz */}
         <div className="lesson-quiz-section">

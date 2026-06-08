@@ -42,6 +42,19 @@ export function Diagram({ type }) {
     case 'freelancer-map': return <FreelancerMap />;
     case 'saas-economics': return <SaasEconomics />;
     case 'skills-marketplace': return <SkillsMarketplace />;
+    // Module: Claude Basics
+    case 'what-is-claude': return <WhatIsClaude />;
+    case 'model-comparison': return <ModelComparison />;
+    case 'tokenization': return <Tokenization />;
+    case 'token-counting': return <TokenCounting />;
+    case 'api-vs-chat': return <ApiVsChat />;
+    case 'claude-plans': return <ClaudePlans />;
+    // Module: Skills
+    case 'skills-overview': return <SkillsOverview />;
+    case 'skill-quality': return <SkillQuality />;
+    case 'builtin-skills': return <BuiltinSkills />;
+    case 'skill-anatomy': return <SkillAnatomy />;
+    case 'skills-vs-mcp': return <SkillsVsMcp />;
     default: return null;
   }
 }
@@ -898,3 +911,284 @@ function SkillsMarketplace() {
 }
 
 // ─── End of Diagrams ─────────────────────────────────────────────────────────
+
+// ─── MODULE: CLAUDE BASICS ────────────────────────────────────────────────────
+
+function WhatIsClaude() {
+  const isItems = [
+    { label: 'LLM — pattern learner', col: '#D1FAE5', stroke: '#059669', tc: '#064E3B' },
+    { label: 'Reasoning tool', col: '#EDE9FE', stroke: '#7C3AED', tc: '#4C1D95' },
+    { label: 'Text generator', col: '#DBEAFE', stroke: '#2563EB', tc: '#1E3A8A' },
+  ];
+  const isNotItems = [
+    { label: 'Search engine', col: '#FEE2E2', stroke: '#DC2626', tc: '#7F1D1D' },
+    { label: 'Fact database', col: '#FEE2E2', stroke: '#DC2626', tc: '#7F1D1D' },
+    { label: 'Real-time news', col: '#FEE2E2', stroke: '#DC2626', tc: '#7F1D1D' },
+  ];
+  return (
+    <svg viewBox="0 0 560 160" className="w-full" style={{ maxHeight: 160 }}>
+      <text x="130" y="22" textAnchor="middle" fill="#059669" fontSize="12" fontWeight="700" textTransform="uppercase">Claude IS</text>
+      {isItems.map((item, i) => (
+        <g key={i}>
+          <rect x="20" y={30 + i * 40} width="220" height="30" rx="8" fill={item.col} stroke={item.stroke} strokeWidth="1.5"/>
+          <text x="130" y="51" y={50 + i * 40} textAnchor="middle" fill={item.tc} fontSize="12" fontWeight="600">{item.label}</text>
+        </g>
+      ))}
+      <line x1="270" y1="20" x2="270" y2="150" stroke="#E5E7EB" strokeWidth="2" strokeDasharray="4,3"/>
+      <text x="430" y="22" textAnchor="middle" fill="#DC2626" fontSize="12" fontWeight="700">Claude IS NOT</text>
+      {isNotItems.map((item, i) => (
+        <g key={i}>
+          <rect x="320" y={30 + i * 40} width="220" height="30" rx="8" fill={item.col} stroke={item.stroke} strokeWidth="1.5"/>
+          <text x="430" y={50 + i * 40} textAnchor="middle" fill={item.tc} fontSize="12" fontWeight="600">{item.label}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function ModelComparison() {
+  const models = [
+    { name: 'Haiku', emoji: '⚡', speed: '< 1s', cost: '$', best: 'Classification\nHigh volume\nSimple tasks', col: '#D1FAE5', stroke: '#059669', tc: '#064E3B' },
+    { name: 'Sonnet', emoji: '⚖️', speed: '1–3s', cost: '$$', best: 'Most features\nCoding\nDefault choice', col: '#FEF3C7', stroke: '#D97706', tc: '#92400E' },
+    { name: 'Opus', emoji: '🧠', speed: '3–8s', cost: '$$$', best: 'Hard reasoning\nArchitecture\nComplex logic', col: '#EDE9FE', stroke: '#7C3AED', tc: '#4C1D95' },
+  ];
+  return (
+    <svg viewBox="0 0 500 170" className="w-full" style={{ maxHeight: 170 }}>
+      {models.map((m, i) => (
+        <g key={i}>
+          <rect x={10 + i * 163} y="10" width="153" height="150" rx="12" fill={m.col} stroke={m.stroke} strokeWidth="2"/>
+          <text x={10 + i * 163 + 76} y="42" textAnchor="middle" fontSize="22">{m.emoji}</text>
+          <text x={10 + i * 163 + 76} y="64" textAnchor="middle" fill={m.tc} fontSize="15" fontWeight="700">{m.name}</text>
+          <text x={10 + i * 163 + 76} y="82" textAnchor="middle" fill={m.stroke} fontSize="11">Speed: {m.speed}</text>
+          <text x={10 + i * 163 + 76} y="98" textAnchor="middle" fill={m.stroke} fontSize="11">Cost: {m.cost}</text>
+          <line x1={10 + i * 163 + 16} y1="108" x2={10 + i * 163 + 137} y2="108" stroke={m.stroke} strokeWidth="0.8" opacity="0.4"/>
+          {m.best.split('\n').map((l, li) => (
+            <text key={li} x={10 + i * 163 + 76} y={122 + li * 16} textAnchor="middle" fill={m.tc} fontSize="10">{l}</text>
+          ))}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function Tokenization() {
+  return (
+    <svg viewBox="0 0 560 130" className="w-full" style={{ maxHeight: 130 }}>
+      <text x="20" y="30" fill="#374151" fontSize="14" fontWeight="600">Input text:</text>
+      <text x="20" y="55" fill="#1A1916" fontSize="15" fontFamily="monospace">"Claude is a helpful AI"</text>
+      <text x="20" y="85" fill="#374151" fontSize="13" fontWeight="600">After tokenization:</text>
+      {['Claud', 'e', ' is', ' a', ' help', 'ful', ' AI'].map((tok, i) => {
+        const colors = ['#EDE9FE','#D1FAE5','#DBEAFE','#FEF3C7','#FCE7F3','#FEE2E2','#EDE9FE'];
+        const strokes = ['#7C3AED','#059669','#2563EB','#D97706','#EC4899','#DC2626','#7C3AED'];
+        const tcs = ['#4C1D95','#064E3B','#1E3A8A','#92400E','#9D174D','#7F1D1D','#4C1D95'];
+        const x = 20 + i * 73;
+        return (
+          <g key={i}>
+            <rect x={x} y="98" width={Math.max(45, tok.length * 9 + 8)} height="24" rx="5" fill={colors[i % colors.length]} stroke={strokes[i % strokes.length]} strokeWidth="1.5"/>
+            <text x={x + Math.max(45, tok.length * 9 + 8)/2} y="114" textAnchor="middle" fill={tcs[i % tcs.length]} fontSize="11" fontFamily="monospace" fontWeight="600">{tok}</text>
+          </g>
+        );
+      })}
+      <text x="545" y="114" textAnchor="end" fill="#6B7280" fontSize="11">= 7 tokens</text>
+    </svg>
+  );
+}
+
+function TokenCounting() {
+  const rows = [
+    { label: 'Short sentence', tokens: '15–20', ex: '"Hello, how are you today?"' },
+    { label: 'Full paragraph', tokens: '~100', ex: 'About 75 words of text' },
+    { label: 'One page (A4)', tokens: '~450', ex: '~350 words double-spaced' },
+    { label: 'This lesson', tokens: '~800', ex: 'Typical lesson content' },
+    { label: 'A novel (300pp)', tokens: '~130,000', ex: 'Fits in context window!' },
+  ];
+  return (
+    <svg viewBox="0 0 560 155" className="w-full" style={{ maxHeight: 155 }}>
+      {rows.map((r, i) => (
+        <g key={i}>
+          <rect x="10" y={10 + i * 27} width="540" height="23" rx="5" fill={i % 2 === 0 ? '#F9FAFB' : 'white'} stroke="#E5E7EB" strokeWidth="0.8"/>
+          <text x="22" y={26 + i * 27} fill="#374151" fontSize="11" fontWeight="600">{r.label}</text>
+          <text x="200" y={26 + i * 27} fill="#7C3AED" fontSize="11" fontWeight="700" fontFamily="monospace">{r.tokens}</text>
+          <text x="310" y={26 + i * 27} fill="#9CA3AF" fontSize="10">{r.ex}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function ApiVsChat() {
+  return (
+    <svg viewBox="0 0 560 170" className="w-full" style={{ maxHeight: 170 }}>
+      <rect x="10" y="10" width="255" height="150" rx="12" fill="#EDE9FE" stroke="#7C3AED" strokeWidth="1.5"/>
+      <text x="137" y="38" textAnchor="middle" fill="#4C1D95" fontSize="13" fontWeight="700">claude.ai chat</text>
+      {['You type → Claude responds','One user at a time','Anthropic\'s interface','Subscription billing ($20/mo)','Personal use & exploration'].map((t, i) => (
+        <g key={i}>
+          <circle cx="28" cy={54 + i * 22} r="3" fill="#7C3AED"/>
+          <text x="38" y={59 + i * 22} fill="#4C1D95" fontSize="10">{t}</text>
+        </g>
+      ))}
+
+      <rect x="295" y="10" width="255" height="150" rx="12" fill="#D1FAE5" stroke="#059669" strokeWidth="1.5"/>
+      <text x="422" y="38" textAnchor="middle" fill="#064E3B" fontSize="13" fontWeight="700">The API</text>
+      {['Your code sends request → JSON back','Unlimited users (your users)','Your interface, your rules','Pay per token (no subscription)','Products, automation, apps'].map((t, i) => (
+        <g key={i}>
+          <circle cx="313" cy={54 + i * 22} r="3" fill="#059669"/>
+          <text x="323" y={59 + i * 22} fill="#064E3B" fontSize="10">{t}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function ClaudePlans() {
+  const plans = [
+    { name: 'Free', price: '$0', col: '#F9FAFB', stroke: '#E5E7EB', tc: '#374151', features: 'Limited msgs\nSonnet only\nNo Projects' },
+    { name: 'Pro', price: '$20', col: '#EDE9FE', stroke: '#7C3AED', tc: '#4C1D95', features: 'All models\nFile uploads\nProjects' },
+    { name: 'Max', price: '$100+', col: '#D1FAE5', stroke: '#059669', tc: '#064E3B', features: 'High limits\nClaude Code\nExt. thinking' },
+    { name: 'Team', price: '$30/u', col: '#DBEAFE', stroke: '#2563EB', tc: '#1E3A8A', features: 'Pro for team\nShared projects\nAdmin tools' },
+  ];
+  return (
+    <svg viewBox="0 0 560 135" className="w-full" style={{ maxHeight: 135 }}>
+      {plans.map((p, i) => (
+        <g key={i}>
+          <rect x={10 + i * 137} y="10" width="127" height="115" rx="10" fill={p.col} stroke={p.stroke} strokeWidth="1.5"/>
+          <text x={10 + i * 137 + 63} y="36" textAnchor="middle" fill={p.tc} fontSize="14" fontWeight="700">{p.name}</text>
+          <text x={10 + i * 137 + 63} y="55" textAnchor="middle" fill={p.stroke} fontSize="16" fontWeight="700">{p.price}</text>
+          <line x1={20 + i * 137} y1="64" x2={127 + i * 137} y2="64" stroke={p.stroke} strokeWidth="0.8" opacity="0.4"/>
+          {p.features.split('\n').map((f, fi) => (
+            <text key={fi} x={10 + i * 137 + 63} y={80 + fi * 15} textAnchor="middle" fill={p.tc} fontSize="9">{f}</text>
+          ))}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ─── MODULE: SKILLS ───────────────────────────────────────────────────────────
+
+function SkillsOverview() {
+  return (
+    <svg viewBox="0 0 560 160" className="w-full" style={{ maxHeight: 160 }}>
+      <defs><marker id="so1" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#9CA3AF"/></marker></defs>
+      <rect x="10" y="50" width="120" height="60" rx="10" fill="#EDE9FE" stroke="#7C3AED" strokeWidth="1.5"/>
+      <text x="70" y="77" textAnchor="middle" fill="#4C1D95" fontSize="12" fontWeight="600">Your request</text>
+      <text x="70" y="95" textAnchor="middle" fill="#7C3AED" fontSize="10">"Create a PDF"</text>
+
+      <rect x="210" y="15" width="140" height="50" rx="8" fill="#FEF3C7" stroke="#D97706" strokeWidth="1.5"/>
+      <text x="280" y="37" textAnchor="middle" fill="#92400E" fontSize="11" fontWeight="600">SKILL.md</text>
+      <text x="280" y="55" textAnchor="middle" fill="#D97706" fontSize="10">Library + patterns</text>
+
+      <rect x="210" y="95" width="140" height="50" rx="8" fill="#F9FAFB" stroke="#9CA3AF" strokeWidth="1.5"/>
+      <text x="280" y="117" textAnchor="middle" fill="#374151" fontSize="11" fontWeight="600">No skill</text>
+      <text x="280" y="135" textAnchor="middle" fill="#9CA3AF" fontSize="10">Guesses library</text>
+
+      <path d="M132 70 L208 35" stroke="#D97706" strokeWidth="2" markerEnd="url(#so1)"/>
+      <path d="M132 90 L208 115" stroke="#9CA3AF" strokeWidth="2" strokeDasharray="4,3" markerEnd="url(#so1)"/>
+
+      <rect x="425" y="15" width="120" height="50" rx="8" fill="#D1FAE5" stroke="#059669" strokeWidth="1.5"/>
+      <text x="485" y="37" textAnchor="middle" fill="#064E3B" fontSize="11" fontWeight="600">✓ Works</text>
+      <text x="485" y="55" textAnchor="middle" fill="#059669" fontSize="10">Correct library</text>
+
+      <rect x="425" y="95" width="120" height="50" rx="8" fill="#FEE2E2" stroke="#DC2626" strokeWidth="1.5"/>
+      <text x="485" y="117" textAnchor="middle" fill="#7F1D1D" fontSize="11" fontWeight="600">✗ Error</text>
+      <text x="485" y="135" textAnchor="middle" fill="#DC2626" fontSize="10">Wrong library</text>
+
+      <path d="M352 35 L423 35" stroke="#059669" strokeWidth="2" markerEnd="url(#so1)"/>
+      <path d="M352 115 L423 115" stroke="#DC2626" strokeWidth="2" markerEnd="url(#so1)"/>
+    </svg>
+  );
+}
+
+function SkillQuality() {
+  return (
+    <svg viewBox="0 0 500 140" className="w-full" style={{ maxHeight: 140 }}>
+      <rect x="10" y="10" width="225" height="120" rx="12" fill="#D1FAE5" stroke="#059669" strokeWidth="2"/>
+      <text x="122" y="36" textAnchor="middle" fill="#064E3B" fontSize="13" fontWeight="700">With Skill</text>
+      {['Correct library version','Working code patterns','Right file output path','Known anti-patterns avoided','90%+ success rate'].map((t, i) => (
+        <g key={i}>
+          <text x="30" y={58 + i * 16} fill="#059669" fontSize="12">✓</text>
+          <text x="46" y={58 + i * 16} fill="#064E3B" fontSize="11">{t}</text>
+        </g>
+      ))}
+
+      <rect x="265" y="10" width="225" height="120" rx="12" fill="#FEE2E2" stroke="#DC2626" strokeWidth="2"/>
+      <text x="377" y="36" textAnchor="middle" fill="#7F1D1D" fontSize="13" fontWeight="700">Without Skill</text>
+      {['Wrong library name','Guessed API patterns','Wrong output path','Unknown breakage points','40-60% error rate'].map((t, i) => (
+        <g key={i}>
+          <text x="285" y={58 + i * 16} fill="#DC2626" fontSize="12">✗</text>
+          <text x="301" y={58 + i * 16} fill="#7F1D1D" fontSize="11">{t}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function BuiltinSkills() {
+  const skills = [
+    { name: 'docx', icon: '📄', lib: 'python-docx', use: 'Word documents', col: '#DBEAFE', stroke: '#2563EB', tc: '#1E3A8A' },
+    { name: 'pdf', icon: '📋', lib: 'weasyprint', use: 'PDF creation', col: '#FEE2E2', stroke: '#DC2626', tc: '#7F1D1D' },
+    { name: 'pptx', icon: '📊', lib: 'python-pptx', use: 'Presentations', col: '#FEF3C7', stroke: '#D97706', tc: '#92400E' },
+    { name: 'xlsx', icon: '📈', lib: 'openpyxl', use: 'Excel files', col: '#D1FAE5', stroke: '#059669', tc: '#064E3B' },
+    { name: 'frontend', icon: '⚛️', lib: 'React+Tailwind', use: 'UI components', col: '#EDE9FE', stroke: '#7C3AED', tc: '#4C1D95' },
+    { name: 'data', icon: '📉', lib: 'pandas+plotly', use: 'Charts & analysis', col: '#FCE7F3', stroke: '#EC4899', tc: '#9D174D' },
+  ];
+  return (
+    <svg viewBox="0 0 560 130" className="w-full" style={{ maxHeight: 130 }}>
+      {skills.map((s, i) => (
+        <g key={i}>
+          <rect x={10 + i * 92} y="10" width="82" height="110" rx="10" fill={s.col} stroke={s.stroke} strokeWidth="1.5"/>
+          <text x={10 + i * 92 + 41} y="38" textAnchor="middle" fontSize="20">{s.icon}</text>
+          <text x={10 + i * 92 + 41} y="58" textAnchor="middle" fill={s.tc} fontSize="11" fontWeight="700">{s.name}</text>
+          <text x={10 + i * 92 + 41} y="74" textAnchor="middle" fill={s.stroke} fontSize="9" fontFamily="monospace">{s.lib}</text>
+          <text x={10 + i * 92 + 41} y="90" textAnchor="middle" fill={s.tc} fontSize="9">{s.use}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function SkillAnatomy() {
+  const sections = [
+    { label: '--- frontmatter ---', sub: 'name + description', col: '#FEF3C7', stroke: '#D97706' },
+    { label: 'Environment', sub: 'Libraries, versions, paths', col: '#DBEAFE', stroke: '#2563EB' },
+    { label: 'Patterns ⭐', sub: 'Working code examples', col: '#D1FAE5', stroke: '#059669' },
+    { label: 'Anti-patterns', sub: 'What breaks and why', col: '#FEE2E2', stroke: '#DC2626' },
+    { label: 'Output conventions', sub: 'Naming, paths, format', col: '#EDE9FE', stroke: '#7C3AED' },
+  ];
+  return (
+    <svg viewBox="0 0 480 130" className="w-full" style={{ maxHeight: 130 }}>
+      {sections.map((s, i) => (
+        <g key={i}>
+          <rect x={10 + i * 94} y="15" width="84" height="100" rx="8" fill={s.col} stroke={s.stroke} strokeWidth="1.5"/>
+          <text x={10 + i * 94 + 42} y="55" textAnchor="middle" fill={s.stroke} fontSize="10" fontWeight="700">{s.label.split(' ')[0]}</text>
+          {s.label.split(' ').slice(1).length > 0 && (
+            <text x={10 + i * 94 + 42} y="68" textAnchor="middle" fill={s.stroke} fontSize="10" fontWeight="700">{s.label.split(' ').slice(1).join(' ')}</text>
+          )}
+          <text x={10 + i * 94 + 42} y="90" textAnchor="middle" fill={s.stroke} fontSize="9" opacity="0.8">{s.sub.split(' ').slice(0,2).join(' ')}</text>
+          <text x={10 + i * 94 + 42} y="103" textAnchor="middle" fill={s.stroke} fontSize="9" opacity="0.8">{s.sub.split(' ').slice(2).join(' ')}</text>
+        </g>
+      ))}
+      <text x="240" y="13" textAnchor="middle" fill="#9CA3AF" fontSize="9">⭐ Most important section</text>
+    </svg>
+  );
+}
+
+function SkillsVsMcp() {
+  return (
+    <svg viewBox="0 0 560 165" className="w-full" style={{ maxHeight: 165 }}>
+      <rect x="10" y="10" width="255" height="145" rx="12" fill="#FEF3C7" stroke="#D97706" strokeWidth="2"/>
+      <text x="137" y="36" textAnchor="middle" fill="#92400E" fontSize="13" fontWeight="700">Skill (SKILL.md)</text>
+      <text x="137" y="52" textAnchor="middle" fill="#D97706" fontSize="11">Static knowledge file</text>
+      {['📖 A markdown file — no server','Teaches HOW to do something','Works offline, no connection','Covers: libraries, patterns, conventions','Example: "use python-docx, not docx"'].map((t, i) => (
+        <text key={i} x="24" y={72 + i * 17} fill="#92400E" fontSize="10">{t}</text>
+      ))}
+
+      <rect x="295" y="10" width="255" height="145" rx="12" fill="#D1FAE5" stroke="#059669" strokeWidth="2"/>
+      <text x="422" y="36" textAnchor="middle" fill="#064E3B" fontSize="13" fontWeight="700">MCP Server</text>
+      <text x="422" y="52" textAnchor="middle" fill="#059669" fontSize="11">Live connection</text>
+      {['🔌 A running server — requires connection','Provides ACCESS to live data/actions','Needs internet/network','Covers: APIs, databases, real-time data','Example: "read your Gmail inbox"'].map((t, i) => (
+        <text key={i} x="309" y={72 + i * 17} fill="#064E3B" fontSize="10">{t}</text>
+      ))}
+    </svg>
+  );
+}

@@ -8,9 +8,10 @@ import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import BookmarksPage from './pages/BookmarksPage';
 import { MobileNav } from './components/MobileNav';
+import { SearchOverlay, SearchButton } from './components/SearchOverlay';
 import './App.css';
 
-function Nav({ dark, toggleDark }) {
+function Nav({ dark, toggleDark, onSearch }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -59,6 +60,7 @@ function Nav({ dark, toggleDark }) {
             <BookOpen size={15} />
             Docs
           </a>
+          <SearchButton onClick={onSearch} />
           <button
             className="theme-toggle"
             onClick={toggleDark}
@@ -72,10 +74,10 @@ function Nav({ dark, toggleDark }) {
   );
 }
 
-function Layout({ children, dark, toggleDark }) {
+function Layout({ children, dark, toggleDark, onSearch }) {
   return (
     <div className="app-layout">
-      <Nav dark={dark} toggleDark={toggleDark} />
+      <Nav dark={dark} toggleDark={toggleDark} onSearch={onSearch} />
       <div className="app-content">{children}</div>
       <MobileNav />
     </div>
@@ -90,6 +92,7 @@ export default function App() {
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
     } catch { return false; }
   });
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
@@ -100,7 +103,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Layout dark={dark} toggleDark={toggleDark}>
+      <Layout dark={dark} toggleDark={toggleDark} onSearch={() => setSearchOpen(true)}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/lesson/:id" element={<LessonPage />} />
@@ -110,6 +113,7 @@ export default function App() {
           <Route path="/bookmarks" element={<BookmarksPage />} />
         </Routes>
       </Layout>
+      {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
     </BrowserRouter>
   );
 }
