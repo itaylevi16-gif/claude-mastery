@@ -1637,3 +1637,105 @@ body {
 .agent-spin { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+
+/* ─── AI Agent updates (no-key version) ────────────────────────────────────── */
+.agent-setup-banner {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 10px 14px; background: #FFFBEB;
+  border-bottom: 1px solid #FCD34D;
+  font-size: 11.5px; color: #92400E; line-height: 1.5; flex-shrink: 0;
+}
+[data-theme='dark'] .agent-setup-banner {
+  background: #2D1F00; border-color: #854D0E; color: #FCD34D;
+}
+.agent-setup-banner code {
+  background: rgba(0,0,0,0.08); padding: 1px 4px; border-radius: 3px;
+  font-family: var(--font-mono); font-size: 10.5px;
+}
+[data-theme='dark'] .agent-setup-banner code { background: rgba(255,255,255,0.1); }
+
+.agent-clear-btn {
+  background: rgba(255,255,255,0.15); border: none; border-radius: var(--r-xs);
+  padding: 5px 9px; cursor: pointer; color: white; font-size: 16px;
+  line-height: 1; transition: background 0.12s;
+}
+.agent-clear-btn:hover { background: rgba(255,255,255,0.25); }
+
+/* ─── AI Agent — local mode additions ─────────────────────────────────────── */
+.agent-settings-btn {
+  background: rgba(255,255,255,0.15); border: none; border-radius: var(--r-xs);
+  padding: 5px 7px; cursor: pointer; color: white;
+  display: flex; align-items: center; transition: background 0.12s;
+}
+.agent-settings-btn:hover { background: rgba(255,255,255,0.28); }
+
+.agent-settings-panel {
+  padding: 14px 16px; background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+[data-theme='dark'] .agent-settings-panel { background: var(--surface-raised); }
+.agent-settings-heading {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--text-tertiary); margin-bottom: 10px;
+}
+
+.agent-mode-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: var(--r-sm);
+  border: 1.5px solid var(--border); background: var(--surface);
+  cursor: pointer; transition: all 0.15s; width: 100%; box-sizing: border-box;
+}
+.agent-mode-option input[type="radio"] { display: none; }
+.agent-mode-option.selected {
+  border-color: var(--accent); background: var(--accent-bg);
+}
+[data-theme='dark'] .agent-mode-option.selected {
+  background: rgba(124,58,237,0.15);
+}
+.agent-mode-option:hover { border-color: var(--accent); }
+.agent-mode-text { flex: 1; }
+.agent-mode-text strong { display: block; font-size: 13px; color: var(--text); font-weight: 600; }
+.agent-mode-text span  { display: block; font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
+
+.agent-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.04em; flex-shrink: 0;
+}
+.agent-badge.ok   { background: #D1FAE5; color: #065F46; }
+.agent-badge.fail { background: #FEE2E2; color: #7F1D1D; }
+[data-theme='dark'] .agent-badge.ok   { background: #052E1C; color: #6EE7B7; }
+[data-theme='dark'] .agent-badge.fail { background: #2D0F0F; color: #FCA5A5; }
+
+.agent-install-hint {
+  margin-top: 10px; padding: 12px 14px;
+  background: #FFFBEB; border: 1px solid #FCD34D; border-radius: var(--r-sm);
+  font-size: 12px; color: #92400E; line-height: 1.7;
+}
+[data-theme='dark'] .agent-install-hint { background: #2D1F00; border-color: #854D0E; color: #FCD34D; }
+.agent-install-hint ol { padding-left: 16px; margin: 6px 0 0; }
+.agent-install-hint a  { color: var(--accent); }
+.agent-install-hint code {
+  background: rgba(0,0,0,0.08); padding: 1px 5px;
+  border-radius: 3px; font-family: var(--font-mono); font-size: 11px;
+}
+[data-theme='dark'] .agent-install-hint code { background: rgba(255,255,255,0.1); }
+
+.agent-model-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 8px;
+}
+.agent-model-input {
+  flex: 1; padding: 6px 10px;
+  border: 1px solid var(--border); border-radius: var(--r-xs);
+  font-family: var(--font-mono); font-size: 12px;
+  background: var(--surface); color: var(--text); outline: none;
+}
+.agent-model-input:focus { border-color: var(--accent); }
+
+.agent-key-input {
+  width: 100%; padding: 8px 12px;
+  border: 1px solid var(--border); border-radius: var(--r-xs);
+  font-family: var(--font-mono); font-size: 12px;
+  background: var(--surface); color: var(--text); outline: none; box-sizing: border-box;
+}
+.agent-key-input:focus { border-color: var(--accent); }
