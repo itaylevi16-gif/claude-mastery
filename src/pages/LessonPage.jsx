@@ -7,6 +7,7 @@ import { useBookmarks } from '../hooks/useBookmarks';
 import { LessonContent } from '../components/LessonContent';
 import { Quiz } from '../components/Quiz';
 import { LessonNotes } from '../components/LessonNotes';
+import { LessonNarrator } from '../components/LessonNarrator';
 
 export default function LessonPage() {
   const { id } = useParams();
@@ -158,6 +159,9 @@ export default function LessonPage() {
             </div>
           )}
         </div>
+
+        {/* Narrator */}
+        <LessonNarrator lesson={lesson} />
 
         {/* Content */}
         <div className="lesson-body">

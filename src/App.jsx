@@ -9,6 +9,7 @@ import ProjectDetailPage from './pages/ProjectDetailPage';
 import BookmarksPage from './pages/BookmarksPage';
 import { MobileNav } from './components/MobileNav';
 import { SearchOverlay, SearchButton } from './components/SearchOverlay';
+import { AIAgentChat } from './components/AIAgentChat';
 import './App.css';
 
 function Nav({ dark, toggleDark, onSearch }) {
@@ -80,6 +81,7 @@ function Layout({ children, dark, toggleDark, onSearch }) {
       <Nav dark={dark} toggleDark={toggleDark} onSearch={onSearch} />
       <div className="app-content">{children}</div>
       <MobileNav />
+      <AIAgentChat />
     </div>
   );
 }
